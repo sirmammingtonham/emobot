@@ -139,4 +139,5 @@ cython_debug/
 
 # other stuff
 .vscode/
-tone_creds.json
+*_creds.json
+*.env
