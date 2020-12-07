@@ -12,11 +12,16 @@ ibm_cloud_sdk_core == 1.7.3
 # src\tone_analyzer\tone_analyzer.py: 2,3
 ibm_watson == 4.7.1
 
-# src\face_recognition\face_recognition.py: 1
+# src\emotion_detection\emotion_detection.py: 1
+# src\emotion_detection\train.py: 1
 numpy == 1.19.2
 
-# src\face_recognition\face_recognition.py: 2
+# src\emotion_detection\emotion_detection.py: 2
 opencv_python == 4.4.0.46
 
 # app.py: 1
 python_dotenv == 0.15.0
+
+# src\emotion_detection\emotion_detection.py: 4
+# src\emotion_detection\train.py: 4,5,6,7,8
+tensorflow == 2.0.0
