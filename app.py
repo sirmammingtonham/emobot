@@ -18,35 +18,34 @@ tone_analyzer = ToneAnalyzer()
 emotion_detector = EmotionDetector()
 chatbot = ChatBot()
 
+# since we only detect emotion every 3 seconds we need to track it
+current_emotion = ('Neutral', 0.0)
+
 @app.route("/")
 def home():
     return render_template("index.html")
-
-
-# @app.route("/parse_text")
-# def get_bot_response():
-#     userText = request.args.get('msg')
-#     tone = tone_analyzer.analyze(userText)
-#     return f"Detected tone: {tone.getTone()}"
 
 @app.route("/parse_text")
 def test():
     userText = request.args.get('msg')
     tone = tone_analyzer.analyze(userText)
-    response = chatbot.processMessage(userText, tone)
+    response = chatbot.processMessage(userText, tone, current_emotion)
 
     return f"Detected tone: {tone.getTone()}&nbsp; <br> &nbsp; Watson says: {response}"
 
 
 @app.route("/parse_image", methods=['GET'])
 def parse_image():
-    myfile = request.args.get('image').split(',')
-    imgdata = base64.b64decode(myfile[1])
-    face = emotion_detector.run_detection_bytes(imgdata)
-
-    # with open('test.jpg', 'wb') as f:
-    #     f.write(imgdata)
-    return 'face detected!' if face is not None else 'no face detected'
+    global current_emotion
+    try:
+        myfile = request.args.get('image').split(',')
+        imgdata = base64.b64decode(myfile[1])
+        current_emotion = emotion_detector.run_detection_bytes(imgdata)
+        
+        return 'successfully detected emotion!'
+    except Exception as e:
+        return 'Error: ' + e
+    
 
 
 if __name__ == "__main__":

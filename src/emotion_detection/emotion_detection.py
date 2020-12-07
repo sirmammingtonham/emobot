@@ -59,7 +59,7 @@ class EmotionDetector:
             # save output for testing
             cv2.imwrite('test.jpg', img)
 
-            return self.emotion_dict[maxindex], prediction[0][maxindex]
+            return self.emotion_dict[maxindex], prediction[0][maxindex].item()
         
         return None
 
@@ -96,5 +96,5 @@ class EmotionDetector:
 
 # some tests
 if __name__ == "__main__":
-    recognizer = FacialRecognition()
+    recognizer = EmotionDetector()
     recognizer.run_loop()

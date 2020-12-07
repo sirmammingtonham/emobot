@@ -21,7 +21,7 @@ class ChatBot:
         self.assistant.delete_session(
             assistant_id=self.assistant_id, session_id=self.session_id)
 
-    def processMessage(self, text, tone, emotion=None):
+    def processMessage(self, text, tone, emotion):
         input = {
             'message_type': 'text',
             'text': text,
@@ -39,8 +39,8 @@ class ChatBot:
                             'score': tone.getScore()
                         },
                         'emotion': {
-                            'type': 'test',  # whatever we detect from emotion detection
-                            'score': 0,  # confidence score
+                            'type': emotion[0],  # whatever we detect from emotion detection
+                            'score': emotion[1],  # confidence score
                         }
                     }
                 }
