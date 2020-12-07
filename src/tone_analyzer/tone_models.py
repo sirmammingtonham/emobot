@@ -33,7 +33,7 @@ class Tone:
         if self.document_tones:
             return self.document_tones[0]['score']
         else:
-            return -1
+            return 0
 
     def getAverageToneScore(self):
         return sum([tone['score'] for tone in self.document_tones]) / len(self.document_tones)

@@ -3,18 +3,19 @@ from flask import Flask, render_template, request
 import base64
 import logging
 
-from src.tone_analyzer import *
+from src.tone_analyzer import ToneAnalyzer
+from src.face_recognition import FacialRecognition
 from src.chatbot import ChatBot
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
-app = Flask(__name__)
+app = Flask('Emotionally Intelligent Chatbot')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-
 load_dotenv(find_dotenv('ibm-credentials.env'))
-tone_analyzer = tone_analyzer.ToneAnalyzer()  # type: ignore
+tone_analyzer = ToneAnalyzer() 
+face_recognition = FacialRecognition()
 chatbot = ChatBot()
 
 @app.route("/")
@@ -41,9 +42,11 @@ def test():
 def parse_image():
     myfile = request.args.get('image').split(',')
     imgdata = base64.b64decode(myfile[1])
-    with open('test.jpg', 'wb') as f:
-        f.write(imgdata)
-    return ''
+    face = face_recognition.run_detection_bytes(imgdata)
+
+    # with open('test.jpg', 'wb') as f:
+    #     f.write(imgdata)
+    return 'face detected!' if face is not None else 'no face detected'
 
 
 if __name__ == "__main__":

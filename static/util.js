@@ -54,8 +54,8 @@ function take_snapshot() {
     url: "/parse_image",
     contentType: false,
     processData: false,
-    success: function () {
-      console.log("success!");
+    success: function (message) {
+      console.log(message);
     },
   });
 }
