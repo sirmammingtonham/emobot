@@ -26,9 +26,9 @@ SOCIAL_HIGH_SCORE_THRESHOLD = 0.75
 SOCIAL_LOW_SCORE_THRESHOLD = 0.25
 
 # Labels for the tone categories returned by the Watson Tone Analyzer
-EMOTION_TONE_LABEL = 'emotion_tone'
-LANGUAGE_TONE_LABEL = 'language_tone'
-SOCIAL_TONE_LABEL = 'social_tone'
+EMOTION_TONE_LABEL = 'emotion_tone' # anger, fear, joy, sadness
+LANGUAGE_TONE_LABEL = 'language_tone' # analytical, confident, tentative
+SOCIAL_TONE_LABEL = 'social_tone' #
 
 
 def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):

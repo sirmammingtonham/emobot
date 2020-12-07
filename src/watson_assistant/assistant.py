@@ -1,7 +1,6 @@
 import json
 import os
 from dotenv import load_dotenv, find_dotenv
-import uuid
 
 from ibm_watson import AssistantV2
 from ibm_watson import ToneAnalyzerV3
@@ -62,7 +61,9 @@ def invokeToneConversation(payload, maintainToneHistoryInContext):
         tone_input=payload['input'], content_type='application/json').get_result()
     conversation_payload = tone_detection.\
         updateUserTone(payload, tone, maintainToneHistoryInContext)
-    
+        
+    print(json.dumps(conversation_payload, indent=2))
+
     response = assistant.message(assistant_id=assistant_id, 
                                  session_id=session_id,
                                  input=conversation_payload['input'],

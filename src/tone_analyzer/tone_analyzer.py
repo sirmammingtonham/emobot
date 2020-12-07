@@ -6,7 +6,7 @@ from tone_models import Tone
 
 class ToneAnalayzer:
     def __init__(self):
-        with open('../tone_creds.json', 'r') as f:
+        with open('../../tone_creds.json', 'r') as f:
             creds = json.load(f)
             API_KEY = creds['apikey']
             URL = creds['url']
