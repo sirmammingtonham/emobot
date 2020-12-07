@@ -22,6 +22,12 @@ class Tone:
     def __str__(self):
         return json.dumps(self.response, indent=2)
     
+    def getTone(self):
+        if self.document_tones:
+            return self.document_tones[0]['tone_name']
+        else:
+            return 'Neutral'
+    
     def getAverageToneScore(self):
         return sum([tone['score'] for tone in self.document_tones]) / len(self.document_tones)
     

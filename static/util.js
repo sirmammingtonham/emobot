@@ -1,21 +1,32 @@
+const typingAnim = `<p class="botTyping"><span class="jumping-dots">
+<span class="dot-1">.</span>
+<span class="dot-2">.</span>
+<span class="dot-3">.</span>
+</span></p>`;
+
 function getBotResponse() {
   var rawText = $("#textInput").val();
   var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+
   $("#textInput").val("");
   $("#chatbox").append(userHtml);
-  document
-    .getElementById("userInput")
-    .scrollIntoView({ block: "end", behavior: "smooth" });
-  $.get("/parse_text", { msg: rawText }).done(function (data) {
-    var botHtml = '<p class="botText"><span>' + data + "</span></p>";
-    $("#chatbox").append(botHtml);
+  // setting timeout so it feels more natural when bot responds (not instant)
+  setTimeout(() => {
+    $("#chatbox").append(typingAnim);
     document
       .getElementById("userInput")
       .scrollIntoView({ block: "end", behavior: "smooth" });
-  });
+    $.get("/parse_text", { msg: rawText }).done(function (data) {
+      var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+      $("#chatbox").children().last().html(botHtml); // change typing animation to response
+      document
+        .getElementById("userInput")
+        .scrollIntoView({ block: "end", behavior: "smooth" });
+    });
+  }, 400);
 }
 
-function stop_webcam(e) {
+function stop_webcam(_) {
   var stream = video.srcObject;
   var tracks = stream.getTracks();
 
@@ -44,7 +55,7 @@ function take_snapshot() {
     contentType: false,
     processData: false,
     success: function () {
-      console.log('success!');
+      console.log("success!");
     },
   });
 }

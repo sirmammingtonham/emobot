@@ -6,7 +6,7 @@ from ibm_watson import AssistantV2
 from ibm_watson import ToneAnalyzerV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-import tone_detection
+import tone_detection  # type: ignore
 
 # load the .env file containing your environment variables for the required
 # services (conversation and tone)

@@ -1,15 +1,13 @@
-import json
+import os
 from ibm_watson import ToneAnalyzerV3
 from ibm_watson.tone_analyzer_v3 import ToneInput
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from tone_models import Tone
+from .tone_models import Tone
 
-class ToneAnalayzer:
+class ToneAnalyzer:
     def __init__(self):
-        with open('../../tone_creds.json', 'r') as f:
-            creds = json.load(f)
-            API_KEY = creds['apikey']
-            URL = creds['url']
+        API_KEY = os.environ.get('TONE_ANALYZER_APIKEY')
+        URL = os.environ.get('TONE_ANALYZER_URL')
 
         # Authentication via IAM
         authenticator = IAMAuthenticator(API_KEY)
@@ -25,6 +23,6 @@ class ToneAnalayzer:
 
 # some tests
 if __name__ == "__main__":
-    analyzer = ToneAnalayzer()
+    analyzer = ToneAnalyzer()
     print(analyzer.analyze('I am very happy. It is a good day.'))
     print(analyzer.analyze('Everything sucks.'))
