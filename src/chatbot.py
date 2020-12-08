@@ -14,12 +14,12 @@ class ChatBot:
             authenticator=assistant_authenticator)
         self.assistant.set_service_url(os.environ.get('ASSISTANT_URL'))
         self.assistant_id = os.environ.get('ASSISTANT_ID')
-        self.session_id = self.assistant.create_session(
-            assistant_id=self.assistant_id).get_result()['session_id']
+        # self.session_id = self.assistant.create_session(
+        #     assistant_id=self.assistant_id).get_result()['session_id']
 
-    def __del__(self):
-        self.assistant.delete_session(
-            assistant_id=self.assistant_id, session_id=self.session_id)
+    # def __del__(self):
+    #     self.assistant.delete_session(
+    #         assistant_id=self.assistant_id, session_id=self.session_id)
 
     def processMessage(self, text, tone, emotion):
         input = {
@@ -39,7 +39,8 @@ class ChatBot:
                             'score': tone.getScore()
                         },
                         'emotion': {
-                            'type': emotion[0],  # whatever we detect from emotion detection
+                            # whatever we detect from emotion detection
+                            'type': emotion[0],
                             'score': emotion[1],  # confidence score
                         }
                     }
@@ -47,10 +48,10 @@ class ChatBot:
             }
         }
 
-        response = self.assistant.message(assistant_id=self.assistant_id,
-                                          session_id=self.session_id,
-                                          input=input,
-                                          context=context).get_result()
+        response = self.assistant.message_stateless(assistant_id=self.assistant_id,
+                                                    #   session_id=self.session_id,
+                                                    input=input,
+                                                    context=context).get_result()
 
         # print(json.dumps(response, indent=2))
 

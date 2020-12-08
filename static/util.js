@@ -4,6 +4,7 @@ const typingAnim = `<p class="botTyping"><span class="jumping-dots">
 <span class="dot-3">.</span>
 </span></p>`;
 
+
 function getBotResponse() {
   var rawText = $("#textInput").val();
   var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
@@ -16,7 +17,7 @@ function getBotResponse() {
 
   $("#textInput").val("");
   $("#chatbox").append(userHtml);
-  
+
   // setting timeout so it feels more natural when bot responds (not instant)
   setTimeout(() => {
     $("#chatbox").append(typingAnim);
