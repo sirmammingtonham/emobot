@@ -7,17 +7,31 @@ const typingAnim = `<p class="botTyping"><span class="jumping-dots">
 function getBotResponse() {
   var rawText = $("#textInput").val();
   var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+  var current_emotion = (document.cookie.match(
+    /^(?:.*;)?\s*current_emotion\s*=\s*([^;]+)(?:.*)?$/
+  ) || [, null])[1];
+  if (current_emotion === null) {
+    document.cookie = `current_emotion=Neutral;`;
+  }
 
   $("#textInput").val("");
   $("#chatbox").append(userHtml);
+  
   // setting timeout so it feels more natural when bot responds (not instant)
   setTimeout(() => {
     $("#chatbox").append(typingAnim);
     document
       .getElementById("userInput")
       .scrollIntoView({ block: "end", behavior: "smooth" });
-    $.get("/parse_text", { msg: rawText }).done(function (data) {
-      var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+    $.get("/parse_text", {
+      msg: rawText,
+      current_emotion: current_emotion,
+    }).done(function (data) {
+      console.log(`tone: ${data.tone}`)
+      console.log(`emotion: ${data.emotion}`)
+
+      var botHtml = '<p class="botText"><span>' + data.response + "</span></p>";
+
       $("#chatbox").children().last().html(botHtml); // change typing animation to response
       document
         .getElementById("userInput")
@@ -54,8 +68,8 @@ function take_snapshot() {
     url: "/parse_image",
     contentType: false,
     processData: false,
-    success: function (message) {
-      console.log(message);
+    success: function (emotion) {
+      document.cookie = `current_emotion=${emotion};`;
     },
   });
 }

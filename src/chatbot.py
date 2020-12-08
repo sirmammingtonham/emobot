@@ -52,7 +52,7 @@ class ChatBot:
                                           input=input,
                                           context=context).get_result()
 
-        print(json.dumps(response, indent=2))
+        # print(json.dumps(response, indent=2))
 
         if response['output']['generic']:
             return response['output']['generic'][0]['text']

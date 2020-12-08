@@ -1,5 +1,5 @@
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask, render_template, request
+from flask import Flask, render_template, jsonify, request
 import base64
 import logging
 
@@ -19,7 +19,7 @@ emotion_detector = EmotionDetector()
 chatbot = ChatBot()
 
 # since we only detect emotion every 3 seconds we need to track it
-current_emotion = ('Neutral', 0.0)
+# current_emotion = ('Neutral', 0.0)
 
 @app.route("/")
 def home():
@@ -28,23 +28,26 @@ def home():
 @app.route("/parse_text")
 def test():
     userText = request.args.get('msg')
+    current_emotion = request.args.get('current_emotion')
     tone = tone_analyzer.analyze(userText)
-    response = chatbot.processMessage(userText, tone, current_emotion)
+    response = chatbot.processMessage(userText, tone, (current_emotion, 1.0))
 
-    return f"Detected tone: {tone.getTone()}&nbsp; <br> &nbsp; Watson says: {response}"
+    return jsonify(response=response, tone=tone.getTone(), emotion=current_emotion)
+
+    # return f"Detected tone: {tone.getTone()}&nbsp; <br> &nbsp; Watson says: {response}"
 
 
 @app.route("/parse_image", methods=['GET'])
 def parse_image():
-    global current_emotion
     try:
         myfile = request.args.get('image').split(',')
         imgdata = base64.b64decode(myfile[1])
         current_emotion = emotion_detector.run_detection_bytes(imgdata)
-        
-        return 'successfully detected emotion!'
+        return current_emotion[0]
+
     except Exception as e:
-        return 'Error: ' + e
+        print(e)
+        return 'Neutral'
     
 
 
