@@ -17,7 +17,7 @@ ibm_watson == 4.7.1
 numpy == 1.19.2
 
 # src\emotion_detection\emotion_detection.py: 2
-opencv_python == 4.4.0.46
+opencv-python-headless==4.2.0.32
 
 # app.py: 1
 python_dotenv == 0.15.0
