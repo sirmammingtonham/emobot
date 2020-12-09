@@ -64,8 +64,8 @@ function take_snapshot() {
   var imagebase64data = canvas.toDataURL("image/jpeg", 1.0);
 
   $.ajax({
-    type: "GET",
-    data: "image=" + encodeURIComponent(imagebase64data),
+    type: "POST",
+    data: imagebase64data,
     url: "/parse_image",
     contentType: false,
     processData: false,
