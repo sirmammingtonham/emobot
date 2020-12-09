@@ -8,6 +8,7 @@ from src.emotion_detection import EmotionDetector
 from src.chatbot import ChatBot
 
 app = Flask('Emotionally Intelligent Chatbot')
+app.secret_key = os.urandom(24)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 load_dotenv(find_dotenv('ibm-credentials.env'))
@@ -49,5 +50,4 @@ def parse_image():
 
 
 if __name__ == "__main__":
-    app.secret_key = os.urandom(24)
     app.run()
