@@ -65,7 +65,7 @@ class ChatBot:
         # print(json.dumps(response, indent=2))
 
         if response['output']['generic']:
-            if text in response['output']['generic'][0]:
+            if 'text' in response['output']['generic'][0]:
                 return response['output']['generic'][0]['text']
             else:
                 return 'I can\'t come up with a response to that!'
