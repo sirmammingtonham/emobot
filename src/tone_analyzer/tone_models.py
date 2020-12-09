@@ -25,6 +25,9 @@ class Tone:
 
     def getTone(self):
         if self.document_tones:
+            tone = self.document_tones[0]['tone_name']
+            if tone in ['Analytical', 'Confident', 'Tentative']:
+                return 'Neutral'
             return self.document_tones[0]['tone_name']
         else:
             return 'Neutral'
