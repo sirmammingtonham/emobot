@@ -7,11 +7,12 @@ from src.tone_analyzer import ToneAnalyzer
 from src.emotion_detection import EmotionDetector
 from src.chatbot import ChatBot
 
+load_dotenv(find_dotenv('ibm-credentials.env'))
+
 app = Flask('Emotionally Intelligent Chatbot')
-app.secret_key = os.urandom(24)
+app.secret_key = os.environ.get('ASSISTANT_APIKEY') # just a long fixed string
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-load_dotenv(find_dotenv('ibm-credentials.env'))
 tone_analyzer = ToneAnalyzer()
 emotion_detector = EmotionDetector()
 chatbot = ChatBot()
@@ -29,7 +30,7 @@ def test():
     if 'emotion' not in session:
         session['emotion'] = ('Neutral', 1.0)
     current_emotion = session['emotion']
-
+    print(current_emotion)
     tone = tone_analyzer.analyze(userText)
     response = chatbot.processMessage(userText, tone, current_emotion, session)
 
