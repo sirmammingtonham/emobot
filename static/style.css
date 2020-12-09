@@ -88,6 +88,8 @@ h3 {
   background-color: #009688;
   padding: 10px;
   border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .botText {
@@ -102,6 +104,8 @@ h3 {
   background-color: #ef5350;
   padding: 10px;
   border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .botTyping {
