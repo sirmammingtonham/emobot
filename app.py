@@ -27,7 +27,7 @@ def test():
     userText = request.args.get('msg')
 
     if 'emotion' not in session:
-        session['emotion'] = 'Neutral'
+        session['emotion'] = ('Neutral', 1.0)
     current_emotion = session['emotion']
 
     tone = tone_analyzer.analyze(userText)
