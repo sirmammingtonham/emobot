@@ -42,6 +42,8 @@ def parse_image():
     try:
         imgdata = base64.b64decode(request.data.split(b',')[1])
         current_emotion = emotion_detector.run_detection_bytes(imgdata)
+        if current_emotion is None:
+            current_emotion = ('Neutral', 1.0)
         session['emotion'] = current_emotion
         return f'successfully updated emotion to {current_emotion[0]}'
 
