@@ -20,6 +20,8 @@ chatbot = ChatBot()
 
 @app.route("/")
 def home():
+    if 'session_id' in session:
+        session.pop('session_id', None)
     return render_template("index.html")
 
 
