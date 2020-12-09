@@ -4,16 +4,9 @@ const typingAnim = `<p class="botTyping"><span class="jumping-dots">
 <span class="dot-3">.</span>
 </span></p>`;
 
-
 function getBotResponse() {
   var rawText = $("#textInput").val();
   var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
-  var current_emotion = (document.cookie.match(
-    /^(?:.*;)?\s*current_emotion\s*=\s*([^;]+)(?:.*)?$/
-  ) || [, null])[1];
-  if (current_emotion === null) {
-    document.cookie = `current_emotion=Neutral;`;
-  }
 
   $("#textInput").val("");
   $("#chatbox").append(userHtml);
@@ -26,10 +19,9 @@ function getBotResponse() {
       .scrollIntoView({ block: "end", behavior: "smooth" });
     $.get("/parse_text", {
       msg: rawText,
-      current_emotion: current_emotion,
     }).done(function (data) {
-      console.log(`tone: ${data.tone}`)
-      console.log(`emotion: ${data.emotion}`)
+      console.log(`tone: ${data.tone}`);
+      console.log(`emotion: ${data.emotion}`);
 
       var botHtml = '<p class="botText"><span>' + data.response + "</span></p>";
 
@@ -69,8 +61,8 @@ function take_snapshot() {
     url: "/parse_image",
     contentType: false,
     processData: false,
-    success: function (emotion) {
-      document.cookie = `current_emotion=${emotion};`;
+    success: function (message) {
+      console.log(message);
     },
   });
 }

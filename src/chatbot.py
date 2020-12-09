@@ -14,14 +14,14 @@ class ChatBot:
             authenticator=assistant_authenticator)
         self.assistant.set_service_url(os.environ.get('ASSISTANT_URL'))
         self.assistant_id = os.environ.get('ASSISTANT_ID')
-        # self.session_id = self.assistant.create_session(
-        #     assistant_id=self.assistant_id).get_result()['session_id']
 
-    # def __del__(self):
-    #     self.assistant.delete_session(
-    #         assistant_id=self.assistant_id, session_id=self.session_id)
+    def processMessage(self, text, tone, emotion, session):
+        if 'session_id' not in session:
+            session['session_id'] = self.assistant.create_session(
+                assistant_id=self.assistant_id).get_result()['session_id']
 
-    def processMessage(self, text, tone, emotion):
+        session_id = session['session_id']
+
         input = {
             'message_type': 'text',
             'text': text,
@@ -48,8 +48,8 @@ class ChatBot:
             }
         }
 
-        response = self.assistant.message_stateless(assistant_id=self.assistant_id,
-                                                    #   session_id=self.session_id,
+        response = self.assistant.message(assistant_id=self.assistant_id,
+                                                    session_id=session_id,
                                                     input=input,
                                                     context=context).get_result()
 
