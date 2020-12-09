@@ -3,7 +3,7 @@ import os
 
 from ibm_watson import AssistantV2
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-
+from ibm_cloud_sdk_core.api_exception import ApiException
 
 class ChatBot:
     def __init__(self):
@@ -47,11 +47,20 @@ class ChatBot:
                 }
             }
         }
+        try:
+            response = self.assistant.message(assistant_id=self.assistant_id,
+                                                        session_id=session_id,
+                                                        input=input,
+                                                        context=context).get_result()
+        except ApiException: # if the session expires start a new one
+            session['session_id'] = self.assistant.create_session(
+                assistant_id=self.assistant_id).get_result()['session_id']
 
-        response = self.assistant.message(assistant_id=self.assistant_id,
-                                                    session_id=session_id,
-                                                    input=input,
-                                                    context=context).get_result()
+            session_id = session['session_id']
+            response = self.assistant.message(assistant_id=self.assistant_id,
+                                                        session_id=session_id,
+                                                        input=input,
+                                                        context=context).get_result()
 
         # print(json.dumps(response, indent=2))
 
